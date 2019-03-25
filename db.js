@@ -4,11 +4,11 @@ let pool = null
 
 let connect= (done) => {
     pool= mysql.createPool({
-        host:'127.0.0.1',
-        user: 'root',
-        password: '',
+        host:'localhost',
+        user: 'weruntog',
+        password: '50EdYe09hq',
         port: 3306,
-        database:'weruntogether'
+        database:'weruntog_produccion'
     })
     done()
 }

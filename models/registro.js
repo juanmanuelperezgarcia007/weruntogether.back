@@ -21,13 +21,13 @@ let getByUser = (token, done) => {
 }
 
 let updateUser = ({ nombre, apellidos, email, usuario, provincia, poblacion, token }, done) => {
-    
+
     db.get().query('UPDATE usuarios set nombre =?,apellidos=?, email=?, usuario=?,provincia=?, poblacion=? where token=?', [nombre, apellidos, email, usuario, provincia, poblacion, token], (err, result) => {
         console.log('ENTRA')
         if (err) return done(err)
         done(null, result)
-      
-        
+
+
     })
 }
 
@@ -36,7 +36,7 @@ let deleteUser = (token, done) => {
     db.get().query('DELETE FROM usuarios WHERE token =? ', [token], (err, result) => {
         if (err) return done(err)
         done(null, result)
-        
+
     })
 }
 

@@ -11,8 +11,8 @@ let newPost = ({ formularioDia, formularioHora, formularioDistancia, latitude, l
     })
 }
 
-let paintPost = ({ lat0,lat180,lng90,lng270},done) => {
-    console.log({ lat0,lng90,lat180,lng270 })
+let paintPost = ({ lat0, lat180, lng90, lng270 }, done) => {
+    console.log({ lat0, lng90, lat180, lng270 })
 
     db.get().query(`SELECT e.formularioDia, e.latitude, e.longitud,e.formularioHora,e.formularioDistancia,e.formularioMensaje, e.id as eventoId, u.usuario, u.token, u.id as usuarioId 
     FROM eventos as e JOIN usuarios as u 
@@ -23,12 +23,12 @@ let paintPost = ({ lat0,lat180,lng90,lng270},done) => {
     AND e.longitud > ?
     
     order by formularioDia ASC`,
-    [lat0,lat180,lng90,lng270], 
-    (err, result) => {
+        [lat0, lat180, lng90, lng270],
+        (err, result) => {
 
-        if (err) return done(err)
-        done(null, result)
-    })
+            if (err) return done(err)
+            done(null, result)
+        })
 }
 
 let recoverComentarios = ({ fk_eventos }, done

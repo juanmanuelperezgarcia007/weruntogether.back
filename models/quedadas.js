@@ -117,7 +117,3 @@ module.exports = {
 }
 
 
-// AND e.latitude < ? 
-// AND e.latitude > ?
-// AND e.longitud < ?
-// AND e.longitud > ? 

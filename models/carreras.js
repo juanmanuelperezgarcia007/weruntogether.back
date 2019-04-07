@@ -7,11 +7,11 @@ let getWeekRaces = (done) => {
     })
 }
 
-let getCarrerasFilters = ({ min = -1, max = -1, date = null, type = null, city = null }, done) => {
+let getCarrerasFilters = ({ min = -1, max = -1, date = null, type = null, city = null, province = null }, done) => {
     let query = 'select * from races where 1=1 '
     arrFiltros = []
 
-    console.log(max, min, date, type, city)
+    
 
     max = parseInt(max)
     min = parseInt(min)
@@ -41,11 +41,15 @@ let getCarrerasFilters = ({ min = -1, max = -1, date = null, type = null, city =
         query += ' and city = ? '
         arrFiltros.push(city)
     }
+    if (province != '' && province != null) {
+        query += ' and province = ? '
+        arrFiltros.push(province)
+    }
 
 
     query += ' ORDER BY DATE ASC LIMIT 20  '
-    console.log(query)
-    console.log(arrFiltros)
+    // console.log(query)
+    // console.log(arrFiltros)
 
     db.get().query(query, arrFiltros, (err, rows) => {
         if (err) return done(err)
@@ -57,5 +61,5 @@ let getCarrerasFilters = ({ min = -1, max = -1, date = null, type = null, city =
 
 module.exports = {
     getWeekRaces: getWeekRaces,
-    getCarrerasFilters
+    getCarrerasFilters:getCarrerasFilters,
 }

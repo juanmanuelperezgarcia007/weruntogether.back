@@ -31,8 +31,7 @@ let paintPost = ({ lat0, lat180, lng90, lng270 }, done) => {
         })
 }
 
-let recoverComentarios = ({ fk_eventos }, done
-) => {
+let recoverComentarios = ({ fk_eventos }, done) => {
     console.log(fk_eventos)
 
     db.get().query('SELECT u.usuario,u.token, c.comentarios,c.id FROM `usuarios`as u JOIN`comentarios` as c WHERE `fk_eventos`=? and  c.fk_usuarios = u.id ', [fk_eventos], (err, result) => {
@@ -73,8 +72,7 @@ let getIdEventos = (id, done) => {
     })
 }
 
-let saveComentarios = ({ fk_eventos, comentarios, tokenUsuario }, done
-) => {
+let saveComentarios = ({ fk_eventos, comentarios, tokenUsuario }, done) => {
 
     db.get().query('INSERT INTO comentarios (id, fk_eventos, comentarios, fk_usuarios) VALUES (null,?,?,(select id from usuarios where token = ?))', [fk_eventos, comentarios, tokenUsuario], (err, result) => {
 
@@ -92,8 +90,7 @@ let deleteComentarios = ({ id }, done
     })
 }
 
-let deletePost = ({ id }, done
-) => {
+let deletePost = ({ id }, done) => {
     console.log(id)
     db.get().query('DELETE FROM `eventos` WHERE id =?', [id], (err, result) => {
 

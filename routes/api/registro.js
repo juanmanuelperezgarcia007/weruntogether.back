@@ -6,7 +6,7 @@ const registroModel = require('../../models/registro')
 router.post('/newUser', (req, res) => {
     console.log(req.body)
     registroModel.newUsuario(req.body, (err, rows) => {
-        if (err) return res.json({ error: error.message })
+        if (err) return res.json( err.message )
         res.json(rows)
     })
 })

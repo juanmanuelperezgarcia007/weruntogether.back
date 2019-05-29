@@ -7,6 +7,20 @@ let getWeekRaces = (done) => {
     })
 }
 
+let getFavorites = ({token},done) => {
+    db.get().query('SELECT id_Carreras, favoritosCarreras FROM carrerasfavoritos where `token` = ?',[token],(err, rows) => {
+        if (err) return done(err)
+        done(null, rows)
+    })
+}
+
+let postFavoritos = ({favoritosCarreras, id_Carreras,token},done) => {
+    db.get().query('insert into carrerasfavoritos(favoritosCarreras, id_Carreras, token) values (?,?,?) ',[favoritosCarreras, id_Carreras,token], (err, rows) => {
+        if (err) return done(err)
+        done(null, rows)
+    })
+}
+
 let getCarrerasFilters = ({ min = -1, max = -1, date = null, type = null, city = null, province = null }, done) => {
     let query = 'select * from races where 1=1 '
     arrFiltros = []
@@ -62,4 +76,6 @@ let getCarrerasFilters = ({ min = -1, max = -1, date = null, type = null, city =
 module.exports = {
     getWeekRaces: getWeekRaces,
     getCarrerasFilters:getCarrerasFilters,
+    postFavoritos: postFavoritos,
+    getFavorites:getFavorites,
 }

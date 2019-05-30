@@ -10,6 +10,7 @@ let connect= (done) => {
         port: 3306,
         database:'weruntogether'
     })
+    
     done()
 }
 

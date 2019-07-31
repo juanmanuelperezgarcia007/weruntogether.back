@@ -7,15 +7,18 @@ let getWeekRaces = (done) => {
     })
 }
 
-let getFavorites = ({token},done) => {
-    db.get().query('SELECT id_Carreras, favoritosCarreras FROM carrerasfavoritos where `token` = ?',[token],(err, rows) => {
+// db.get().query('INSERT INTO `eventos`(`formularioDia`, `formularioHora`, `formularioDistancia`, `latitude`, `longitud`, `formularioMensaje`,`fk_usuarios`) VALUES (?,?,?,?,?,?,(select `id` from usuarios where token = ?));', [formularioDia, formularioHora, formularioDistancia, latitude, longitud, formularioMensaje, token], (err, result) => {
+
+
+let getFavorites = ({ token }, done) => {
+    db.get().query('SELECT id_Carreras FROM carrerasfavoritos where fk_usuarios = (select `id` from usuarios where token = ?)', [token], (err, rows) => {
         if (err) return done(err)
         done(null, rows)
     })
 }
 
-let postFavoritos = ({favoritosCarreras, id_Carreras,token},done) => {
-    db.get().query('insert into carrerasfavoritos(favoritosCarreras, id_Carreras, token) values (?,?,?) ',[favoritosCarreras, id_Carreras,token], (err, rows) => {
+let postFavoritos = ({ favoritosCarreras, id_Carreras, token }, done) => {
+    db.get().query('insert into carrerasfavoritos(favoritosCarreras, id_Carreras, fk_usuarios) values (?,?,(select `id` from usuarios where token = ?)) ', [favoritosCarreras, id_Carreras, token], (err, rows) => {
         if (err) return done(err)
         done(null, rows)
     })
@@ -25,7 +28,7 @@ let getCarrerasFilters = ({ min = -1, max = -1, date = null, type = null, city =
     let query = 'select * from races where 1=1 '
     arrFiltros = []
 
-    
+
 
     max = parseInt(max)
     min = parseInt(min)
@@ -75,7 +78,7 @@ let getCarrerasFilters = ({ min = -1, max = -1, date = null, type = null, city =
 
 module.exports = {
     getWeekRaces: getWeekRaces,
-    getCarrerasFilters:getCarrerasFilters,
+    getCarrerasFilters: getCarrerasFilters,
     postFavoritos: postFavoritos,
-    getFavorites:getFavorites,
+    getFavorites: getFavorites,
 }

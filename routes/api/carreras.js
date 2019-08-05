@@ -46,6 +46,25 @@ router.post('/quitarFavoritos', (req, res) => {
 
 })
 
+router.post('/paintFav', (req, res) => {
+    carrerasModel.paintFavorite(req.body, (err, rows) => {
+        console.log(req.body)
+        if (err) return console.log(err.message)
+        res.json(rows)
+    })
+
+})
+
+router.post('/estrellaCount', (req, res) => {
+    carrerasModel.getFavoritesCount(req.body, (err, rows) => {
+        console.log(req.body)
+        if (err) return console.log(err.message)
+        res.json(rows)
+
+    })
+})
+
+
 
 
 module.exports = router;

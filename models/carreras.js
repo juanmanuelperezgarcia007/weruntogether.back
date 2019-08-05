@@ -7,11 +7,17 @@ let getWeekRaces = (done) => {
     })
 }
 
-// db.get().query('INSERT INTO `eventos`(`formularioDia`, `formularioHora`, `formularioDistancia`, `latitude`, `longitud`, `formularioMensaje`,`fk_usuarios`) VALUES (?,?,?,?,?,?,(select `id` from usuarios where token = ?));', [formularioDia, formularioHora, formularioDistancia, latitude, longitud, formularioMensaje, token], (err, result) => {
-
 
 let getFavorites = ({ token }, done) => {
     db.get().query('SELECT id_Carreras FROM carrerasfavoritos where fk_usuarios = (select `id` from usuarios where token = ?)', [token], (err, rows) => {
+        if (err) return done(err)
+        done(null, rows)
+    })
+}
+
+
+let getFavoritesCount = ({ token }, done) => {
+    db.get().query('SELECT COUNT(id_Carreras) as count FROM carrerasfavoritos where fk_usuarios = (select `id` from usuarios where token = ?)', [token], (err, rows) => {
         if (err) return done(err)
         done(null, rows)
     })
@@ -82,6 +88,14 @@ let deleteFavoritos = ({ id_Carreras, token }, done) => {
         done(null, result)
     })
 }
+let paintFavorite = ({ id }, done) => {
+
+    db.get().query('SELECT * FROM `races` WHERE id= ?', [id], (err, result) => {
+
+        if (err) return done(err)
+        done(null, result)
+    })
+}
 
 
 module.exports = {
@@ -90,4 +104,7 @@ module.exports = {
     postFavoritos: postFavoritos,
     getFavorites: getFavorites,
     deleteFavoritos: deleteFavoritos,
+    paintFavorite: paintFavorite,
+    getFavoritesCount: getFavoritesCount
+
 }

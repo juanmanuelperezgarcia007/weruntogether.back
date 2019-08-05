@@ -99,8 +99,6 @@ let deletePost = ({ id }, done) => {
     })
 }
 
-
-
 module.exports = {
     newPost: newPost,
     paintPost: paintPost,

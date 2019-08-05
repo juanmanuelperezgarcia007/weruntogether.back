@@ -17,8 +17,8 @@ let getFavorites = ({ token }, done) => {
     })
 }
 
-let postFavoritos = ({ favoritosCarreras, id_Carreras, token }, done) => {
-    db.get().query('insert into carrerasfavoritos(favoritosCarreras, id_Carreras, fk_usuarios) values (?,?,(select `id` from usuarios where token = ?)) ', [favoritosCarreras, id_Carreras, token], (err, rows) => {
+let postFavoritos = ({ id_Carreras, token }, done) => {
+    db.get().query('insert into carrerasfavoritos(id_Carreras, fk_usuarios) values (?,(select `id` from usuarios where token = ?)) ', [id_Carreras, token], (err, rows) => {
         if (err) return done(err)
         done(null, rows)
     })
@@ -74,6 +74,14 @@ let getCarrerasFilters = ({ min = -1, max = -1, date = null, type = null, city =
     })
 }
 
+let deleteFavoritos = ({ id_Carreras, token }, done) => {
+
+    db.get().query('DELETE FROM carrerasfavoritos WHERE id_Carreras= ? AND fk_usuarios= (select id from usuarios where token = ?)', [id_Carreras, token], (err, result) => {
+
+        if (err) return done(err)
+        done(null, result)
+    })
+}
 
 
 module.exports = {
@@ -81,4 +89,5 @@ module.exports = {
     getCarrerasFilters: getCarrerasFilters,
     postFavoritos: postFavoritos,
     getFavorites: getFavorites,
+    deleteFavoritos: deleteFavoritos,
 }

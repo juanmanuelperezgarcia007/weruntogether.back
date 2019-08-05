@@ -11,6 +11,7 @@ router.get('/WeekRace', (req, res) => {
 
 router.post('/estrella', (req, res) => {
     carrerasModel.getFavorites(req.body, (err, rows) => {
+        console.log(req.body)
         if (err) return console.log(err.message)
         res.json(rows)
 
@@ -29,6 +30,15 @@ router.post('/filtrarCarreras', (req, res) => {
 
 router.post('/carrerasFavoritas', (req, res) => {
     carrerasModel.postFavoritos(req.body, (err, rows) => {
+        console.log(req.body)
+        if (err) return console.log(err.message)
+        res.json(rows)
+    })
+
+})
+
+router.post('/quitarFavoritos', (req, res) => {
+    carrerasModel.deleteFavoritos(req.body, (err, rows) => {
         console.log(req.body)
         if (err) return console.log(err.message)
         res.json(rows)

@@ -54,7 +54,7 @@ let paintPostDistancia = ({ BuscadorDistancia }, done) => {
 
 let paintPostDia = ({ buscadorDia }, done) => {
 
-    db.get().query('SELECT * FROM `eventos` WHERE `formularioDia` =? ', [buscadorDia], (err, result) => {
+    db.get().query('SELECT * FROM `eventos` WHERE `formularioDia` = ? ', [buscadorDia], (err, result) => {
 
         if (err) return done(err)
         done(null, result)

@@ -21,7 +21,7 @@ let paintPost = ({ lat0, lat180, lng90, lng270 }, done) => {
     AND e.latitude > ? 
     AND e.longitud < ? 
     AND e.longitud > ?
-    
+    AND formularioDia > CURRENT_DATE AND formularioDia < DATE_ADD(CURRENT_DATE, INTERVAL 3 DAY )
     order by formularioDia ASC`,
         [lat0, lat180, lng90, lng270],
         (err, result) => {
@@ -43,7 +43,7 @@ let recoverComentarios = ({ fk_eventos }, done) => {
 
 let paintPostDistancia = ({ BuscadorDistancia }, done) => {
 
-    db.get().query('SELECT  FROM `eventos` WHERE `formularioDistancia` =?', [BuscadorDistancia], (err, result) => {
+    db.get().query('SELECT * FROM `eventos` WHERE `formularioDistancia` =?', [BuscadorDistancia], (err, result) => {
 
         if (err) return done(err)
         done(null, result)
@@ -54,7 +54,7 @@ let paintPostDistancia = ({ BuscadorDistancia }, done) => {
 
 let paintPostDia = ({ buscadorDia }, done) => {
 
-    db.get().query('SELECT * FROM `eventos` WHERE `formularioDia` =?', [buscadorDia], (err, result) => {
+    db.get().query('SELECT * FROM `eventos` WHERE `formularioDia` =? ', [buscadorDia], (err, result) => {
 
         if (err) return done(err)
         done(null, result)

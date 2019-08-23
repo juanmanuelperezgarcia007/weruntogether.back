@@ -1,12 +1,22 @@
 const db = require('../db')
 let bcrypt = require("bcrypt")
 
-let newUsuario = ({ nombre, apellidos, email, usuario, password, provincia, poblacion }, done) => {
+let newUsuario = ({ email, usuario, password }, done) => {
 
     console.log(password)
     let claveEncriptada = bcrypt.hashSync(password, 10)
 
-    db.get().query('insert into usuarios (nombre, apellidos, email, usuario, password, provincia, poblacion) values (?,?,?,?,?,?,?)', [nombre, apellidos, email, usuario, claveEncriptada, provincia, poblacion], (err, result) => {
+    db.get().query('insert into usuarios ( email, usuario, password) values (?,?,?,?,?,?,?)', [email, usuario, claveEncriptada], (err, result) => {
+        console.log('ENTRA')
+        if (err) return done(err)
+        done(null, result)
+    })
+}
+
+let newUsuarioGoogle = ({ email, usuario, ultimaconexion, photo, creacion }, done) => {
+
+
+    db.get().query('insert into usuarios ( email, usuario, ultimaconexion, photo, creacion) values (?,?,?,?,?)', [email, usuario, ultimaconexion, photo, creacion], (err, result) => {
         console.log('ENTRA')
         if (err) return done(err)
         done(null, result)
@@ -20,13 +30,24 @@ let getByUser = (token, done) => {
     })
 }
 
-let updateUser = ({ nombre, apellidos, email, usuario, provincia, poblacion, token }, done) => {
+let updateUser = ({ email, usuario, token }, done) => {
 
-    db.get().query('UPDATE usuarios set nombre =?,apellidos=?, email=?, usuario=?,provincia=?, poblacion=? where token=?', [nombre, apellidos, email, usuario, provincia, poblacion, token], (err, result) => {
+    db.get().query('UPDATE usuarios set email=?, usuario=? where email=?', [email, usuario, token], (err, result) => {
         console.log('ENTRA')
         if (err) return done(err)
         done(null, result)
 
+
+    })
+}
+
+let updateUserGoogle = ({ usuario, email, ultimaconexion, photo, creacion, token, id }, done) => {
+    console.log(usuario, email, ultimaconexion, photo, creacion, token, id)
+
+    db.get().query('UPDATE usuarios set usuario=?, email=?, ultimavisita=?, photo=?, FechaCreacion=?, token=? where id=?', [usuario, email, ultimaconexion, photo, creacion, token, id], (err, result) => {
+        console.log('ENTRA')
+        if (err) return done(err)
+        done(null, result)
 
     })
 }
@@ -45,5 +66,7 @@ module.exports = {
     newUsuario: newUsuario,
     getByUser: getByUser,
     updateUser: updateUser,
-    deleteUser: deleteUser
+    deleteUser: deleteUser,
+    newUsuarioGoogle: newUsuarioGoogle,
+    updateUserGoogle: updateUserGoogle
 }

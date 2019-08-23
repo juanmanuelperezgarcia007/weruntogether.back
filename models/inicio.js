@@ -1,7 +1,8 @@
 const db = require('../db')
 
-let login = (usuario, done) => {
-    db.get().query('select * from usuarios where usuario = ?', [usuario], (err, result) => {
+let login = (email, done) => {
+    console.log(email)
+    db.get().query('select * from usuarios where email = ?', [email.email], (err, result) => {
         if (err) return done(err)
         done(null, result)
     })

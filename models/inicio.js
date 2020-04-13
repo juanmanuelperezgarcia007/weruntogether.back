@@ -1,8 +1,7 @@
 const db = require('../db')
 
 let login = (email, done) => {
-    console.log(email)
-    db.get().query('select * from usuarios where email = ?', [email.email], (err, result) => {
+    db.get().query('select * from usuarios where email = ?', [email], (err, result) => {
         if (err) return done(err)
         done(null, result)
     })
@@ -10,7 +9,6 @@ let login = (email, done) => {
 
 
 let token = (token, id, done) => {
-    console.log('token')
     db.get().query('update usuarios set token = ?  WHERE id= ?', [token, id], (err, result) => {
         if (err) return done(err)
         done(null, result)

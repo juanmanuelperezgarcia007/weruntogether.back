@@ -1,23 +1,31 @@
 const db = require('../db')
 let bcrypt = require("bcrypt")
 
-let newUsuario = ({ email, usuario, password }, done) => {
+let newUsuario = ({
+    email,
+    usuario,
+    password
+}, done) => {
 
     console.log(password)
     let claveEncriptada = bcrypt.hashSync(password, 10)
 
     db.get().query('insert into usuarios ( email, usuario, password) values (?,?,?,?,?,?,?)', [email, usuario, claveEncriptada], (err, result) => {
-        console.log('ENTRA')
         if (err) return done(err)
         done(null, result)
     })
 }
 
-let newUsuarioGoogle = ({ email, usuario, ultimaconexion, photo, creacion }, done) => {
+let newUsuarioGoogle = ({
+    email,
+    usuario,
+    ultimaconexion,
+    photo,
+    creacion
+}, done) => {
 
 
-    db.get().query('insert into usuarios ( email, usuario, ultimaconexion, photo, creacion) values (?,?,?,?,?)', [email, usuario, ultimaconexion, photo, creacion], (err, result) => {
-        console.log('ENTRA')
+    db.get().query('insert into usuarios ( email, usuario, ultimaVisita, photo, fechaCreacion) values (?,?,?,?,?)', [email, usuario, ultimaconexion, photo, creacion], (err, result) => {
         if (err) return done(err)
         done(null, result)
     })
@@ -30,7 +38,11 @@ let getByUser = (token, done) => {
     })
 }
 
-let updateUser = ({ email, usuario, token }, done) => {
+let updateUser = ({
+    email,
+    usuario,
+    token
+}, done) => {
 
     db.get().query('UPDATE usuarios set email=?, usuario=? where email=?', [email, usuario, token], (err, result) => {
         console.log('ENTRA')
@@ -41,11 +53,18 @@ let updateUser = ({ email, usuario, token }, done) => {
     })
 }
 
-let updateUserGoogle = ({ usuario, email, ultimaconexion, photo, creacion, token, id }, done) => {
-    console.log(usuario, email, ultimaconexion, photo, creacion, token, id)
+let updateUserGoogle = ({
+    usuario,
+    email,
+    ultimaconexion,
+    photo,
+    creacion,
+    token,
+    id
+}, done) => {
 
-    db.get().query('UPDATE usuarios set usuario=?, email=?, ultimavisita=?, photo=?, FechaCreacion=?, token=? where id=?', [usuario, email, ultimaconexion, photo, creacion, token, id], (err, result) => {
-        console.log('ENTRA')
+    db.get().query('UPDATE usuarios set usuario=?, email=?, ultimaVisita=?, photo=?, fechaCreacion=?, token=? where id=?', [usuario, email, ultimaconexion, photo, creacion, token, id], (err, result) => {
+
         if (err) return done(err)
         done(null, result)
 

@@ -44,7 +44,7 @@ router.post('/loginGoogle', (req, res) => {
     creacion = moment(creacion).format("YYYY/MM/DD")
 
     inicioModel.login(req.body.email, (err, result) => {
-
+        const password = result.password === null ? null : 'ok';
         if (result) {
 
             registroModel.updateUserGoogle({
@@ -56,7 +56,7 @@ router.post('/loginGoogle', (req, res) => {
                 token: req.body.token,
                 id: result[0].id
             }, (_err, result) => {
-                console.log(result)
+
             })
 
 
@@ -76,7 +76,7 @@ router.post('/loginGoogle', (req, res) => {
 
         };
         if (err) return console.log(err.message)
-        res.json('todo ok')
+        res.json(password)
     })
 })
 
